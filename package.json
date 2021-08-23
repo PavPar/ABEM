@@ -1,0 +1,14 @@
+{
+  "name": "abem",
+  "version": "1.0.0",
+  "description": "Automatic BEM assembler",
+  "main": "abem.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "BEM"
+  ],
+  "author": "PavPar",
+  "license": "ISC"
+}
