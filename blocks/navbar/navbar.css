@@ -1,3 +1,8 @@
+@import url("__title/navbar__title.css");
+@import url("__menuitem/navbar__menuitem.css");
+@import url("__menuitem/_state/navbar__menuitem_state-active.css");
+@import url("__menu/navbar__menu.css");
+@import url("__head/navbar__head.css");
 .navbar {
   /* margin-top: 45px; */
   position: -webkit-sticky;

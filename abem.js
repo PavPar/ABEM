@@ -34,8 +34,7 @@ function createBEMStructure(inputPath, outputPath) {
             fs.mkdirSync(fullOutputPath)
         }
 
-        let miscPath = path.join(fullOutputPath, "misc.css");
-
+        const misc = []
         parsedClasses.forEach(classData => {
             // 
             let currPath = fullOutputPath;
@@ -51,7 +50,7 @@ function createBEMStructure(inputPath, outputPath) {
 
             console.log(currPath)
             if (classData.misc) {
-                writeToMisc(miscPath, classData.fileData.content)
+                misc.push(classData.fileData.content)
                 return
             }
             createFolderAndFile(currPath, classData.className, classData.fileData.content.join("\n"))
@@ -60,10 +59,47 @@ function createBEMStructure(inputPath, outputPath) {
 
         // console.log(path.relative(__dirname,path.join(fullOutputPath,"btn")))
         // console.log(getAllFiles(fullOutputPath))
-        console.log(getImports(path.join(fullOutputPath, "popup")))
+        files = fs.readdirSync(fullOutputPath)
+        const globalExports = []
+        const blocks = []
+        files.forEach(file => {
+            const filePath = path.join(fullOutputPath, file);
+            if (fs.statSync(filePath).isDirectory()) {
+                const { imports, exports } = getImports(filePath);
+                const blockPath = path.join(filePath, `${file}.css`);
+
+                globalExports.push(...exports)
+
+                if (fs.existsSync(blockPath)) {
+                    const data = fs.readFileSync(blockPath);
+                    const fd = fs.openSync(blockPath, 'r+');
+
+                    fs.writeFileSync(blockPath, generateImports(imports, filePath));
+                    fs.appendFileSync(blockPath, data);
+
+                    blocks.push(blockPath);
+                    // fs.writeSync(fd,generateImports(imports,filePath),0, 'utf8')
+                    // fs.appendFileSync(fd,data)
+                } else {
+                    fs.writeFileSync(blockPath, generateImports(imports, filePath));
+                }
+            }
+        })
+
+        const resPath = path.join(__dirname, "imports.css")
+        fs.appendFileSync(resPath, generateImports(globalExports));
+        fs.writeFileSync(resPath, generateImports(blocks));
+        fs.appendFileSync(resPath, misc.join('\n'));
+
+        // console.log(files)
     })
 }
 
+function generateImports(imports, filePath = __dirname) {
+    return imports.map(importPath => {
+        return `@import url("${path.join('.', path.relative(filePath, importPath))}");`
+    }).join('\n') + '\n'
+}
 //fkn trees
 function getImports(dirPath, imports = [], level = 0) {
     files = fs.readdirSync(dirPath)
@@ -74,21 +110,22 @@ function getImports(dirPath, imports = [], level = 0) {
         // console.log(filePath)
         if (fs.statSync(filePath).isDirectory()) {
             if (file.startsWith("__")) {
-                getImports(filePath, imports, level+1)
+                getImports(filePath, imports, level + 1)
                 return
             }
 
             if (level !== 0) {
-                getImports(filePath, imports, level+1)
-            }else{
-                exports.push(...getImports(filePath, [], level+1).imports)
+                getImports(filePath, imports, level + 1)
+            } else {
+                exports.push(...getImports(filePath, [], level + 1).imports)
             }
             return
         }
-        imports.push(filePath)
+        if (level == 0) { return }
+        imports.unshift(filePath)
     })
 
-    return {imports,exports};
+    return { imports, exports };
 }
 
 const getAllFiles = function (dirPath, arrayOfFiles) {
