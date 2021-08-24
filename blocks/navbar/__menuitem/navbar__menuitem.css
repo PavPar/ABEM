@@ -1,0 +1,14 @@
+.navbar__menuitem {
+  font-family: Abel;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 22px;
+  /* or 129% */
+  text-align: center;
+  letter-spacing: -0.408px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  min-width: 147px;
+  cursor: pointer;
+}

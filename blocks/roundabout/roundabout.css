@@ -1,0 +1,15 @@
+.roundabout{
+  display: grid;
+  grid-auto-columns: 139px;
+  grid-template-rows: 1fr;
+  overflow-x: scroll;
+  white-space: nowrap;
+  grid-auto-flow: column;
+  gap:10px;
+  margin-top: 23px;
+}
+
+.roundabout {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
