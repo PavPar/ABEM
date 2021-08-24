@@ -28,7 +28,7 @@ function createBEMStructure(inputPath, outputPath) {
         })
 
 
-        console.log(parsedClasses)
+        // console.log(parsedClasses)
 
         if (!fs.existsSync(fullOutputPath)) {
             fs.mkdirSync(fullOutputPath)
@@ -43,12 +43,12 @@ function createBEMStructure(inputPath, outputPath) {
             //     currPath = path.join(currPath, file.parent)
             // }
 
-            console.log(classData)
+            // console.log(classData)
 
             currPath = path.join(currPath, classData.block, classData.element, classData.mod.modFolderName || "")
 
 
-            console.log(currPath)
+            // console.log(currPath)
             if (classData.misc) {
                 misc.push(classData.fileData.content)
                 return
@@ -67,6 +67,8 @@ function createBEMStructure(inputPath, outputPath) {
             if (fs.statSync(filePath).isDirectory()) {
                 const { imports, exports } = getImports(filePath);
                 const blockPath = path.join(filePath, `${file}.css`);
+                
+                console.log(filePath);
 
                 globalExports.push(...exports)
 
