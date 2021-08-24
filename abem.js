@@ -1,5 +1,7 @@
 //if you are reading this. I am sorry
-const fs = require('fs')
+const exp = require('constants');
+const fs = require('fs');
+const { dirname } = require('path');
 const path = require('path')
 
 
@@ -56,25 +58,53 @@ function createBEMStructure(inputPath, outputPath) {
 
         })
 
-        console.log(getAllFiles(fullOutputPath))
+        // console.log(path.relative(__dirname,path.join(fullOutputPath,"btn")))
+        // console.log(getAllFiles(fullOutputPath))
+        console.log(getImports(path.join(fullOutputPath, "popup")))
     })
 }
 
-const getAllFiles = function(dirPath, arrayOfFiles) {
+//fkn trees
+function getImports(dirPath, imports = [], level = 0) {
     files = fs.readdirSync(dirPath)
-  
-    arrayOfFiles = arrayOfFiles || []
-  
-    files.forEach(function(file) {
-      if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-        arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
-      } else {
-        arrayOfFiles.push(path.join(__dirname, dirPath, "/", file))
-      }
+    const exports = [];
+
+    files.forEach((file) => {
+        const filePath = path.join(dirPath, file)
+        // console.log(filePath)
+        if (fs.statSync(filePath).isDirectory()) {
+            if (file.startsWith("__")) {
+                getImports(filePath, imports, level+1)
+                return
+            }
+
+            if (level !== 0) {
+                getImports(filePath, imports, level+1)
+            }else{
+                exports.push(...getImports(filePath, [], level+1).imports)
+            }
+            return
+        }
+        imports.push(filePath)
     })
-  
+
+    return {imports,exports};
+}
+
+const getAllFiles = function (dirPath, arrayOfFiles) {
+    files = fs.readdirSync(dirPath)
+
+    arrayOfFiles = arrayOfFiles || []
+    files.forEach(function (file) {
+        if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+            arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
+        } else {
+            arrayOfFiles.push(path.relative(__dirname, path.join(dirPath, "/", file), dirPath))
+        }
+    })
+
     return arrayOfFiles
-  }
+}
 //todo optimise
 function parseClasses(classes) {
     const res = []
