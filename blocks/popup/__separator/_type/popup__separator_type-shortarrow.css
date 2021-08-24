@@ -1,0 +1,6 @@
+.popup__separator_type-shortarrow{
+  background-image: url(./images/shortarrow.svg);
+  background-position-x: 45%;
+  background-position-y: 45%;
+  background-size: 9px 18px;
+}

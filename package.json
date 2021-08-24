@@ -10,5 +10,8 @@
     "BEM"
   ],
   "author": "PavPar",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^7.1.7"
+  }
 }

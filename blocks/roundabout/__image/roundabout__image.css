@@ -1,0 +1,7 @@
+.roundabout__image{
+  width: 139px;
+  height: 200px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  object-fit: cover;
+}

@@ -1,0 +1,4 @@
+.navbar__menuitem_state-active {
+  border-bottom: 3px solid #1157A7;
+  border-radius: 2px;
+}

@@ -1,0 +1,5 @@
+.popup__list_pos-centered{
+  justify-items: center;
+  align-items: center;
+  gap:4px;
+}

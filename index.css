@@ -98,7 +98,7 @@ body {
   cursor: pointer;
 }
 
-.popup__visibility-none{
+.popup_visibility-none{
   display: none;
 }
 

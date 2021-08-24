@@ -1,0 +1,8 @@
+.popup__listelement_size-large {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 22px;
+  /* or 61% */
+  letter-spacing: -0.408px;
+}

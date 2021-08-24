@@ -1,0 +1,11 @@
+.btn_type-order {
+  background-color: #1157A7;
+  width: 315px;
+  height: 80px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding:16px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  position: static;
+}
